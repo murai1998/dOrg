@@ -12,6 +12,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Circle from "./components/circle";
 import Landing from "./components/landing";
 import Socket from "./components/Socket";
+import Start from "./components/Start";
 require("dotenv").config();
 
 class Main extends Component {
@@ -106,6 +107,11 @@ class Main extends Component {
             exact
             path="/socket"
             render={props => <Socket {...props} user={this.state} />}
+          />
+          <Route
+            exact
+            path="/start"
+            render={props => <Start {...props} user={this.state} />}
           />
         </Switch>
       </div>

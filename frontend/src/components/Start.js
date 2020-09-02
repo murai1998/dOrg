@@ -9,17 +9,21 @@ class Start extends Component {
   }
 
   async loadBlockchainData() {
-    const web3 = new Web3(Web3.givenProvider || "http://localhost:7545");
+    const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
     let network = await web3.eth.getAccounts();
-    console.log("Network", network);
+
     const accounts = await web3.eth.getAccounts();
+    console.log("account", accounts[0]);
     this.setState({ account: accounts[0] });
     const todoList = new web3.eth.Contract(TODO_LIST_ABI, TODO_LIST_ADDRESS);
     this.setState({ todoList });
+    console.log("todolist", todoList);
     const taskCount = await todoList.methods.taskCount().call();
+    console.log("tasks");
     this.setState({ taskCount });
     for (var i = 1; i <= taskCount; i++) {
       const task = await todoList.methods.tasks(i).call();
+
       this.setState({
         tasks: [...this.state.tasks, task]
       });
@@ -63,17 +67,16 @@ class Start extends Component {
   render() {
     return (
       <div>
-        <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-          <ul className="navbar-nav px-3">
-            <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
-              <small>
-                <a className="nav-link" href="#">
-                  <span id="account"></span>
-                </a>
-              </small>
-            </li>
-          </ul>
-        </nav>
+        <ul className="navbar-nav px-3">
+          <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
+            <small>
+              <a className="nav-link" href="#">
+                <span id="account"></span>
+              </a>
+            </small>
+          </li>
+        </ul>
+
         <div className="container-fluid">
           <div className="row">
             <main
